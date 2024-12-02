@@ -1,0 +1,45 @@
+[project]
+name = "aoc-2024-py"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13.0",
+    "pytest>=8.3.4",
+    "ruff>=0.8.1",
+]
+
+
+[tool.ruff]
+output-format = "concise"
+
+[tool.ruff.format]
+exclude = [
+  ".git",
+  ".github",
+  ".pytest_cache",
+  "**/migrations/**",
+  "setup.py",
+  "manage.py"
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["D", "COM812", "ISC001", "T201"]
+exclude = [".venv", ]
+extend-select = ["D213"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true  # Enables all mypy checks
+allow_subclassing_any = true  # Not all third-party libraries are type-hinted
+ignore_missing_imports = true  # Not all third-party libraries are type-hinted
+warn_return_any = false  # Not all third-party libraries are type-hinted
+warn_unreachable = true  # Checks for unreachable code, often due to isinstance checks
