@@ -23,7 +23,7 @@ class Solution(BaseSolution):
         ]
 
     def part_1(self) -> int:
-        return sum(check_report(report) for report in self.reports)
+        return sum(map(check_report, self.reports))
 
     def part_2(self) -> int:
-        return sum(check_report_with_dampener(report) for report in self.reports)
+        return sum(map(check_report_with_dampener, self.reports))
