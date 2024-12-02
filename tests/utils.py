@@ -15,9 +15,9 @@ def assert_solution_part_returns_expected_on_path(
     solution = solution_class(path)
     solution.setup()
     if part == 1:
-        assert solution.part_1() == expected  # noqa: S101
+        assert solution.part_1() == expected
     elif part == 2:
-        assert solution.part_2() == expected  # noqa: S101
+        assert solution.part_2() == expected
     else:
         msg = f"Invalid part: {part}"
         raise ValueError(msg)
