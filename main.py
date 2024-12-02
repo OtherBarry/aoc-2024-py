@@ -1,7 +1,6 @@
 import argparse
 from importlib import import_module
 from pathlib import Path
-from typing import Any
 
 from solutions.base import BaseSolution
 from timer import Timer
@@ -16,7 +15,7 @@ if __name__ == "__main__":
         for problem in args.problems:
             print(f"\nProblem {problem}:")
             input_path = Path(f"inputs/{problem:02d}.txt")
-            solution_class: type[BaseSolution[Any, Any]] = import_module(
+            solution_class: type[BaseSolution] = import_module(
                 f"solutions.day{problem:02d}"
             ).Solution
             solution = solution_class(input_path)

@@ -1,27 +1,23 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Generic, TypeVar
 
 from timer import Timer
 
-T1 = TypeVar("T1")
-T2 = TypeVar("T2")
 
-
-class BaseSolution(ABC, Generic[T1, T2]):
+class BaseSolution(ABC):
     def __init__(self, input_path: Path) -> None:
         with input_path.open() as f:
             self.raw_input = f.read()
 
-    def setup(self) -> None:
+    def setup(self) -> None:  # noqa: B027
         pass
 
     @abstractmethod
-    def part_1(self) -> T1:
+    def part_1(self) -> int:
         pass
 
     @abstractmethod
-    def part_2(self) -> T2:
+    def part_2(self) -> int:
         pass
 
     def run(self) -> None:

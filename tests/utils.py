@@ -1,9 +1,26 @@
 from importlib import import_module
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from solutions.base import BaseSolution
+
+
+def assert_solution_part_returns_expected_on_path(
+    path: Path, problem: int, part: int, expected: int
+) -> None:
+    solution_class: type[BaseSolution] = import_module(
+        f"solutions.day{problem:02d}"
+    ).Solution
+    solution = solution_class(path)
+    solution.setup()
+    if part == 1:
+        assert solution.part_1() == expected  # noqa: S101
+    elif part == 2:
+        assert solution.part_2() == expected  # noqa: S101
+    else:
+        msg = f"Invalid part: {part}"
+        raise ValueError(msg)
 
 
 def assert_solution_part_returns_expected(
@@ -17,15 +34,4 @@ def assert_solution_part_returns_expected(
     :param expected: The expected value
     """
     input_path = Path(f"inputs/{problem:02d}.txt")
-    solution_class: type[BaseSolution[Any, Any]] = import_module(
-        f"solutions.day{problem:02d}"
-    ).Solution
-    solution = solution_class(input_path)
-    solution.setup()
-    if part == 1:
-        assert solution.part_1() == expected  # noqa: S101
-    elif part == 2:
-        assert solution.part_2() == expected  # noqa: S101
-    else:
-        msg = f"Invalid part: {part}"
-        raise ValueError(msg)
+    assert_solution_part_returns_expected_on_path(input_path, problem, part, expected)
