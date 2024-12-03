@@ -54,4 +54,4 @@ def test_part_1() -> None:
 
 
 def test_part_2() -> None:
-    pass
+    assert_solution_part_returns_expected(2, 2, 301)
