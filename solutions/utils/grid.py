@@ -1,8 +1,5 @@
 from collections.abc import Iterator, Sequence
 from enum import Enum
-from typing import TypeVar
-
-from mypyc.ir.ops import Generic
 
 Coordinate = tuple[int, int]
 
@@ -21,10 +18,7 @@ class Direction(Enum):
         return coordinate[0] + self.value[0], coordinate[1] + self.value[1]
 
 
-T = TypeVar("T")
-
-
-class BaseGrid(Generic[T]):
+class BaseGrid[T]:
     def __init__(self, grid: Sequence[Sequence[T]]) -> None:
         self.grid = grid
         self.height = len(grid)
