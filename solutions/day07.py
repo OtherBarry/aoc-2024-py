@@ -1,30 +1,34 @@
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 from operator import add, mul
-from itertools import product
-from typing import Callable
-
-from tqdm import tqdm
-
 
 from solutions.base import BaseSolution
 
 Operator = Callable[[int, int], int]
 
 
-def combination_can_be_solved(combination: Iterable[Operator], values: list[int], answer: int) -> bool:
-    result = values[0]
-    for operator, value in zip(combination, values[1:]):
-        result = operator(result, value)
-        if result > answer:
-            return False
-    return result == answer
-
-
-def equation_can_be_solved(operators: Iterable[Operator], values: list[int], answer: int) -> bool:
-    for combination in product(operators, repeat=len(values) - 1):
-        if combination_can_be_solved(combination, values, answer):
+def is_equation_solvable_from_point(
+    operators: Iterable[Operator],
+    answer: int,
+    values: list[int],
+    current: int,
+    index: int,
+) -> bool:
+    if index == len(values):
+        return current == answer
+    next_value = values[index]
+    for operator in operators:
+        next_current = operator(current, next_value)
+        if next_current <= answer and is_equation_solvable_from_point(
+            operators, answer, values, next_current, index + 1
+        ):
             return True
     return False
+
+
+def equation_can_be_solved(
+    operators: Iterable[Operator], values: list[int], answer: int
+) -> bool:
+    return is_equation_solvable_from_point(operators, answer, values, values[0], 1)
 
 
 def concatenate(a: int, b: int) -> int:
@@ -36,8 +40,9 @@ class Solution(BaseSolution):
         self.equations = []
         for line in self.raw_input.splitlines():
             raw_answer, raw_values = line.split(":")
-            self.equations.append((int(raw_answer), [int(x) for x in raw_values.split()]))
-
+            self.equations.append(
+                (int(raw_answer), [int(x) for x in raw_values.split()])
+            )
 
     def part_1(self) -> int:
         operators = (add, mul)
